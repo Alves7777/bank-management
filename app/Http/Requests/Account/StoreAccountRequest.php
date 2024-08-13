@@ -9,8 +9,8 @@ class StoreAccountRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'account_number' => 'required',
-            'balance' => 'required',
+            'account_number' => 'required|unique:accounts,account_number',
+            'balance' => 'required|numeric',
         ];
     }
 }
