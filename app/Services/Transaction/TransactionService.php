@@ -17,7 +17,11 @@ class TransactionService extends TransactionRepository
 
     public function create(array $data): Transaction
     {
-        $data['payment_method'] = PaymentMethods::from($data['payment_method'])->name;
+        $paymentMethod = PaymentMethods::from($data['payment_method']);
+
+        $data['value'] += $data['value'] * $paymentMethod->fee();
+
+        $data['payment_method'] = $paymentMethod->name;
 
         return $this->transactionRepository->create($data);
     }
