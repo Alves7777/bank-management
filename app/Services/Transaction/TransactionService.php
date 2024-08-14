@@ -22,17 +22,20 @@ class TransactionService extends TransactionRepository
     public function create(array $data): Transaction
     {
         $paymentMethod = PaymentMethods::from($data['payment_method']);
-
         $data['value'] += $data['value'] * $paymentMethod->fee();
         $data['payment_method'] = $paymentMethod->name;
 
-        $balance = $this->accountRepository->findByAccountNumber($data['account_number'])->balance;
+        $account = $this->accountRepository->findByAccountNumber($data['account_number']);
 
-        if ($data['value'] > $balance) {
-            $balanceFormatted = number_format($balance, 2, ',', '.');
+        if ($data['value'] > $account->balance) {
+            $balanceFormatted = number_format($account->balance, 2, ',', '.');
             throw new Exception("Saldo insuficiente para realizar transação. Saldo: {$balanceFormatted}", 404);
         }
 
-        return $this->transactionRepository->create($data);
+        $transaction = $this->transactionRepository->create($data);
+
+        $this->accountRepository->updateAccountBalance($account, $data['value']);
+
+        return $transaction;
     }
 }

@@ -24,4 +24,10 @@ class AccountRepository
     {
         return $this->model->create($data);
     }
+
+    public function updateAccountBalance(Account $account, float $transactionValue): void
+    {
+        $account->balance -= $transactionValue;
+        $account->save();
+    }
 }
