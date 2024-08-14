@@ -25,7 +25,7 @@ class AccountController extends Controller
     {
         try {
             $data = $this->accountService->findByAccountNumber(request()->query('account_number',0));
-            return $this->apiResponseService->success($data, 'successfully listed');
+            return $this->apiResponseService->success($data, 'successfully listed', 200);
         } catch (ModelNotFoundException $e) {
             return $this->apiResponseService->fail('Número da conta não cadastrado.');
         } catch (Exception $e) {
