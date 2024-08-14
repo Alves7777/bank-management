@@ -29,7 +29,7 @@ class TransactionService
 
         if ($data['value'] > $account->balance) {
             $balanceFormatted = number_format($account->balance, 2, ',', '.');
-            throw new Exception("Saldo insuficiente para realizar transação. Saldo: {$balanceFormatted}", 404);
+            throw new Exception("Saldo insuficiente para realizar transação. Saldo: R$ {$balanceFormatted}", 404);
         }
 
         $transaction = $this->transactionRepository->create($data);
