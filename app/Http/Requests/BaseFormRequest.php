@@ -9,6 +9,6 @@ abstract class BaseFormRequest extends AbstractFormRequest
         return response([
             'status' => 'fail',
             'data'  => implode('', $this->getValidatorInstance()->messages()->all()),
-        ], 400);
+        ], 404);
     }
 }
