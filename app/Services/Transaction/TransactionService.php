@@ -8,7 +8,7 @@ use App\Repositories\Account\AccountRepository;
 use App\Repositories\Transaction\TransactionRepository;
 use Exception;
 
-class TransactionService extends TransactionRepository
+class TransactionService
 {
     private TransactionRepository $transactionRepository;
     private AccountRepository $accountRepository;
