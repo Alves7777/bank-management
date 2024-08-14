@@ -24,10 +24,8 @@ class AccountController extends Controller
     public function index(): JsonResponse
     {
         try {
-            return $this->apiResponseService->success(
-                $this->accountService->findByAccountNumber(request()->query('account_number')),
-                'successfully listed'
-            );
+            $data = $this->accountService->findByAccountNumber(request()->query('account_number',0));
+            return $this->apiResponseService->success($data, 'successfully listed');
         } catch (ModelNotFoundException $e) {
             return $this->apiResponseService->fail('Número da conta não cadastrado.');
         } catch (Exception $e) {
