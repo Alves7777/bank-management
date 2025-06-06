@@ -16,10 +16,10 @@ class FinancialSummaryRequest extends FormRequest
         return [
             'money' => 'required|array',
             'money.*' => 'numeric',
-            'debito' => 'nullable|array',
-            'debito.*' => 'numeric',
-            'outros' => 'nullable|array',
-            'outros.*' => 'numeric',
+            'debit' => 'nullable|array',
+            'debit.*' => 'numeric',
+            'others' => 'nullable|array',
+            'others.*' => 'numeric',
             'savings_limit' => 'nullable|numeric',
         ];
     }

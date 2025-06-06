@@ -21,9 +21,10 @@ class FinancialSummarySnapshotFactory extends Factory
         $money = $this->faker->randomFloat(2, 1000, 5000);
         $total_expenses = $this->faker->randomFloat(2, 500, 2000);
         $total_money = $money + array_sum($debits) + array_sum($others);
-        $can_spend_only = $this->faker->randomFloat(2, 100, 500);
+        $savings_limit = 500;
+        $can_spend_only = $this->faker->randomFloat(2, 100, $savings_limit);
         $balance = $total_money - $total_expenses;
-        $savings_balance = $balance - $can_spend_only;
+        $savings_balance = $balance > $savings_limit ? $balance - $savings_limit : 0;
         return [
             'total_expenses' => $total_expenses,
             'money' => $money,
@@ -33,6 +34,7 @@ class FinancialSummarySnapshotFactory extends Factory
             'balance' => $balance,
             'savings_balance' => $savings_balance,
             'can_spend_only' => $can_spend_only,
+            'savings_limit' => $savings_limit,
         ];
     }
 }

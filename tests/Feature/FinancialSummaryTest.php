@@ -16,21 +16,25 @@ class FinancialSummaryTest extends TestCase
         Bill::factory()->create(['amount' => 80]);
         $payload = [
             'money' => [2000],
-            'debito' => [100],
-            'outros' => [0],
+            'debit' => [100],
+            'others' => [0],
             'savings_limit' => 500,
         ];
         $response = $this->postJson('/api/v1/financial-summary', $payload);
         $response->assertStatus(200)
             ->assertJson([
-                'total_expense' => 1080.00,
-                'money' => 2000.00,
-                'debit' => 100.00,
-                'others' => 0.00,
-                'total_money' => 2100.00,
-                'balance' => 1020.00,
-                'savings_balance' => 520.00,
-                'can_spend_only' => 500.00,
+                'status' => 'Success',
+                'message' => 'Financial summary calculated successfully',
+                'data' => [
+                    'total_expense' => 1080.00,
+                    'money' => 2000.00,
+                    'debit' => 100.00,
+                    'others' => 0.00,
+                    'total_money' => 2100.00,
+                    'balance' => 1020.00,
+                    'savings_balance' => 520.00,
+                    'can_spend_only' => 500.00,
+                ]
             ]);
     }
 
@@ -39,21 +43,25 @@ class FinancialSummaryTest extends TestCase
         Bill::factory()->create(['amount' => 500]);
         $payload = [
             'money' => [0],
-            'debito' => [],
-            'outros' => [],
+            'debit' => [],
+            'others' => [],
             'savings_limit' => 500,
         ];
         $response = $this->postJson('/api/v1/financial-summary', $payload);
         $response->assertStatus(200)
             ->assertJson([
-                'total_expense' => 500.00,
-                'money' => 0.00,
-                'debit' => 0.00,
-                'others' => 0.00,
-                'total_money' => 0.00,
-                'balance' => -500.00,
-                'savings_balance' => 0.00,
-                'can_spend_only' => -500.00,
+                'status' => 'Success',
+                'message' => 'Financial summary calculated successfully',
+                'data' => [
+                    'total_expense' => 500.00,
+                    'money' => 0.00,
+                    'debit' => 0.00,
+                    'others' => 0.00,
+                    'total_money' => 0.00,
+                    'balance' => -500.00,
+                    'savings_balance' => 0.00,
+                    'can_spend_only' => -500.00,
+                ]
             ]);
     }
 }

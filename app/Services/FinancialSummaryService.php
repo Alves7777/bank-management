@@ -10,8 +10,8 @@ class FinancialSummaryService
     {
         $totalExpense = Bill::sum('amount');
         $money = array_sum($data['money'] ?? []);
-        $debit = array_sum($data['debito'] ?? []);
-        $others = array_sum($data['outros'] ?? []);
+        $debit = array_sum($data['debit'] ?? []);
+        $others = array_sum($data['others'] ?? []);
         $totalMoney = $money + $debit + $others;
         $balance = $totalMoney - $totalExpense;
         $savingsLimit = $data['savings_limit'] ?? 500;

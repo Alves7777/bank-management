@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('balance');
             $table->decimal('savings_balance');
             $table->decimal('can_spend_only');
+            $table->decimal('savings_limit')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

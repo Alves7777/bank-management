@@ -16,6 +16,7 @@ class FinancialSummarySnapshotTest extends TestCase
             'debits' => [300.00, 200.00],
             'others' => [100.00],
             'can_spend_only' => 500.00,
+            'savings_limit' => 500.00,
         ];
 
         $response = $this->postJson('/api/v1/financial-summary-snapshots', $payload);
