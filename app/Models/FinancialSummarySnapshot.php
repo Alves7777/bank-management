@@ -19,6 +19,8 @@ class FinancialSummarySnapshot extends Model
         'savings_balance',
         'can_spend_only',
         'savings_limit',
+        'type',
+        'month',
     ];
 
     protected $casts = [
@@ -31,5 +33,7 @@ class FinancialSummarySnapshot extends Model
         'savings_balance' => 'decimal:2',
         'can_spend_only' => 'decimal:2',
         'savings_limit' => 'decimal:2',
+        'type' => 'string',
+        'month' => 'string',
     ];
 }

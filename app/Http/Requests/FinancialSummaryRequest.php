@@ -21,6 +21,8 @@ class FinancialSummaryRequest extends FormRequest
             'others' => 'nullable|array',
             'others.*' => 'numeric',
             'savings_limit' => 'nullable|numeric',
+            'type' => 'nullable|string|exists:custom_transactions,type',
+            'month' => 'nullable|string|exists:custom_transactions,month',
         ];
     }
 }
