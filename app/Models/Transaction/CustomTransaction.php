@@ -13,6 +13,6 @@ class CustomTransaction extends Model
     protected $table = 'custom_transactions';
     protected $guarded = ['id'];
     protected $fillable = [
-        'date', 'title', 'amount', 'month', 'category_name'
+        'date', 'title', 'amount', 'month', 'category_name', 'type'
     ];
 }

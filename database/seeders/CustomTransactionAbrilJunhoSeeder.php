@@ -45,6 +45,10 @@ class CustomTransactionAbrilJunhoSeeder extends Seeder
             ['date' => '2025-05-28', 'title' => 'Esporte - touca natação 2/2', 'amount' => 58.49, 'category_name' => 'Academia', 'month' => 'Junho'],
             ['date' => '2025-05-28', 'title' => 'Farmacia Patricia', 'amount' => 50.83, 'category_name' => 'Educação', 'month' => 'Junho'],
         ];
+        $data = array_map(function($item) {
+            $item['type'] = 'NUBANK';
+            return $item;
+        }, $data);
         DB::table('custom_transactions')->insert($data);
     }
 }

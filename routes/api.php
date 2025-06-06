@@ -4,6 +4,7 @@ use App\Routes\Account\AccountRoutes;
 use App\Routes\Transaction\TransactionRoutes;
 use App\Routes\Transaction\CustomTransactionRoutes;
 use App\Routes\CategoryRoutes;
+use App\Routes\BillRoutes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,4 +18,5 @@ Route::prefix('v1')->group(function () {
     TransactionRoutes::routes();
     CustomTransactionRoutes::routes();
     CategoryRoutes::routes();
+    BillRoutes::routes();
 });

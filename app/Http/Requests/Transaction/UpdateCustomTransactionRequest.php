@@ -13,6 +13,7 @@ class UpdateCustomTransactionRequest extends BaseFormRequest
             'title' => 'sometimes|string|max:255',
             'amount' => 'sometimes|numeric',
             'month' => 'sometimes|string|max:20',
+            'type' => 'sometimes|string|max:50',
         ];
     }
 }

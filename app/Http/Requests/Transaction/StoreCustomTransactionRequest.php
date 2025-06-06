@@ -13,7 +13,8 @@ class StoreCustomTransactionRequest extends BaseFormRequest
             'title' => 'required|string|max:255',
             'amount' => 'required|numeric',
             'month' => 'required|string|max:20',
-            'category_name' => 'nullable|string|exists:categories,name',
+            'category_name' => 'required|string|exists:categories,name',
+            'type' => 'required|string|max:50',
         ];
     }
 }

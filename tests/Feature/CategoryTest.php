@@ -8,8 +8,6 @@ use Tests\TestCase;
 
 class CategoryTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_can_create_category()
     {
         $data = [

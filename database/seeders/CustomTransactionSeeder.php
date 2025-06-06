@@ -11,7 +11,7 @@ class CustomTransactionSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['date' => '2025-05-27', 'title' => 'Vitoria Gabriela Lobo Martins - confra empresa', 'amount' => 13.15, 'category_name' => 'Outros', 'month' => 'Maio'],
+            ['date' => '2025-05-27', 'title' => 'Pix empresa - confra empresa', 'amount' => 13.15, 'category_name' => 'Outros', 'month' => 'Maio'],
             ['date' => '2025-05-27', 'title' => 'Claro Flex - celular', 'amount' => 39.99, 'category_name' => 'Outros', 'month' => 'Maio'],
             ['date' => '2025-05-27', 'title' => 'Uber Uber *Trip Help.U - saídas', 'amount' => 29.93, 'category_name' => 'Transporte', 'month' => 'Maio'],
             ['date' => '2025-05-26', 'title' => 'Supermercado', 'amount' => 57.45, 'category_name' => 'Supermercado', 'month' => 'Maio'],
@@ -82,6 +82,10 @@ class CustomTransactionSeeder extends Seeder
             ['date' => '2025-04-27', 'title' => 'cinema 1 saidas', 'amount' => 25.00, 'category_name' => 'Lazer', 'month' => 'Maio'],
             // Abril e Junho omitidos por limitação de espaço
         ];
+        $data = array_map(function($item) {
+            $item['type'] = 'NUBANK';
+            return $item;
+        }, $data);
         DB::table('custom_transactions')->insert($data);
     }
 }

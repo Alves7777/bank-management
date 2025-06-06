@@ -8,8 +8,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AccountTest extends TestCase
 {
-    use RefreshDatabase;
-
     private function accountNumber(): int
     {
         do {
