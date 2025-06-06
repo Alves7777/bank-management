@@ -11,7 +11,7 @@ class CustomTransactionTest extends TestCase
 {
     public function test_can_create_custom_transaction()
     {
-        $category = Category::factory()->create(['name' => 'Alimentação']);
+        $category = Category::firstOrCreate(['name' => 'Alimentação'], ['description' => 'Alimentação']);
         $data = [
             'date' => now()->toDateString(),
             'title' => 'Compra Mercado',

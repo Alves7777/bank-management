@@ -28,7 +28,7 @@ class CategoryTest extends TestCase
 
     public function test_can_update_category()
     {
-        $category = Category::factory()->create();
+        $category = Category::firstOrCreate(['name' => 'voluptatem'], ['description' => 'Categoria para update']);
         $response = $this->putJson('/api/v1/category/'.$category->id, ['name' => 'Nova Categoria']);
         $response->assertStatus(201)->assertJsonFragment(['name' => 'Nova Categoria']);
     }

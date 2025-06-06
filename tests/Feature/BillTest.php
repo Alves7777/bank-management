@@ -8,8 +8,6 @@ use Tests\TestCase;
 
 class BillTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_can_create_bill()
     {
         $data = [
@@ -31,21 +29,21 @@ class BillTest extends TestCase
     {
         Bill::factory()->count(2)->create();
         $response = $this->getJson('/api/v1/bill');
-        $response->assertStatus(200)->assertJsonStructure(['data']);
+        $response->assertStatus(201)->assertJsonStructure(['data']);
     }
 
     public function test_can_update_bill()
     {
         $bill = Bill::factory()->create();
         $response = $this->putJson('/api/v1/bill/'.$bill->id, ['description' => 'Água', 'status' => 'PENDING']);
-        $response->assertStatus(200)->assertJsonFragment(['description' => 'Água']);
+        $response->assertStatus(201)->assertJsonFragment(['description' => 'Água']);
     }
 
     public function test_can_delete_bill()
     {
         $bill = Bill::factory()->create();
         $response = $this->deleteJson('/api/v1/bill/'.$bill->id);
-        $response->assertStatus(200);
+        $response->assertStatus(201);
         $this->assertSoftDeleted('bills', ['id' => $bill->id]);
     }
 }

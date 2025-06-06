@@ -19,4 +19,6 @@ Route::prefix('v1')->group(function () {
     CustomTransactionRoutes::routes();
     CategoryRoutes::routes();
     BillRoutes::routes();
+    \App\Routes\FinancialSummaryRoutes::routes();
+    \App\Routes\FinancialSummarySnapshotRoutes::routes();
 });
