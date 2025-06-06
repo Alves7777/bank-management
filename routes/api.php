@@ -2,6 +2,8 @@
 
 use App\Routes\Account\AccountRoutes;
 use App\Routes\Transaction\TransactionRoutes;
+use App\Routes\Transaction\CustomTransactionRoutes;
+use App\Routes\CategoryRoutes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,4 +15,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function () {
     AccountRoutes::routes();
     TransactionRoutes::routes();
+    CustomTransactionRoutes::routes();
+    CategoryRoutes::routes();
 });

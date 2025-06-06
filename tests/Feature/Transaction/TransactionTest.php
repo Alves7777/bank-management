@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TransactionTest extends TestCase
 {
-//    use RefreshDatabase;
+    use RefreshDatabase;
 
     private function createAccount()
     {

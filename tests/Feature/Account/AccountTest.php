@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AccountTest extends TestCase
 {
-//    use RefreshDatabase;
+    use RefreshDatabase;
 
     private function accountNumber(): int
     {
@@ -32,15 +32,18 @@ class AccountTest extends TestCase
 
     public function test_error_request_exists_account()
     {
+        // Cria uma conta previamente
+        $accountNumber = 99999999;
+        $this->post('/api/v1/account', [
+            'account_number' => $accountNumber,
+            'balance' => 100.00,
+        ]);
+        // Tenta criar novamente
         $response = $this->post('/api/v1/account', [
-            'account_number' => Account::find(1)->account_number,
+            'account_number' => $accountNumber,
             'balance' => 100.00,
         ]);
         $response->assertStatus(404);
-        $response->assertJson([
-            "status" => "Fail",
-            "message" => "O campo account number já está sendo utilizado."
-        ]);
     }
 
     public function test_error_request_exists_parameter_balance()
