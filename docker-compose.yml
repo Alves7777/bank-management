@@ -3,32 +3,35 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        container_name: laravel_app
+        container_name: bank_management_app
         volumes:
             - .:/var/www/html
         ports:
-            - "8001:8000"
+            - "8090:80"
         networks:
             - laravel
         environment:
             - APP_ENV=local
             - APP_DEBUG=true
             - DB_HOST=mysql
-            - DB_DATABASE=laravel
-            - DB_USERNAME=root
-            - DB_PASSWORD=secret
+            - DB_DATABASE=bank_management
+            - DB_USERNAME=alves
+            - DB_PASSWORD=1994
         depends_on:
             - mysql
+        command: php -S 0.0.0.0:80 -t public
 
     mysql:
         image: mysql:8.0
-        container_name: laravel_mysql
+        container_name: bank_management_mysql
         restart: unless-stopped
+        ports:
+            - 3310:3306
         environment:
-            MYSQL_ROOT_PASSWORD: secret
-            MYSQL_DATABASE: laravel
-            MYSQL_USER: root
-            MYSQL_PASSWORD: secret
+            MYSQL_ROOT_PASSWORD: 1994
+            MYSQL_DATABASE: bank_management
+            MYSQL_USER: alves
+            MYSQL_PASSWORD: 1994
         volumes:
             - mysql_data:/var/lib/mysql
         networks:

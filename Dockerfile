@@ -1,4 +1,4 @@
-FROM php:8.1-fpm
+FROM php:8.2-fpm
 
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -26,7 +26,7 @@ WORKDIR /var/www/html
 
 COPY . .
 
-RUN composer install
+# RUN composer install
 
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage
