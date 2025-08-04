@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Category;
 
-use App\Repositories\CategoryRepository;
+use App\Repositories\Category\CategoryRepository;
 use Exception;
 
 class CategoryService
@@ -26,17 +26,17 @@ class CategoryService
 
     public function find($id)
     {
-        $category = $this->repository->find($id);
-        if (!$category) {
-            throw new Exception('Categoria não encontrada', 404);
+        $item = $this->repository->find($id);
+        if (!$item) {
+            throw new Exception('Category não encontrado', 404);
         }
-        return $category;
+        return $item;
     }
 
     public function update($id, array $data)
     {
         if (!$this->repository->update($id, $data)) {
-            throw new Exception('Falha ao atualizar categoria', 400);
+            throw new Exception('Falha ao atualizar Category', 400);
         }
         return $this->find($id);
     }
@@ -44,7 +44,7 @@ class CategoryService
     public function delete($id)
     {
         if (!$this->repository->delete($id)) {
-            throw new Exception('Falha ao deletar categoria', 400);
+            throw new Exception('Falha ao deletar Category', 400);
         }
         return true;
     }

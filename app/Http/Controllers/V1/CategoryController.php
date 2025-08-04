@@ -2,38 +2,35 @@
 
 namespace App\Http\Controllers\V1;
 
-use App\Core\Services\ApiResponseService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreCategoryRequest;
-use App\Http\Requests\UpdateCategoryRequest;
-use App\Services\CategoryService;
+use App\Http\Requests\Category\StoreCategoryRequest;
+use App\Http\Requests\Category\UpdateCategoryRequest;
+use App\Services\Category\CategoryService;
 use Illuminate\Http\JsonResponse;
 use Exception;
 
 class CategoryController extends Controller
 {
     private CategoryService $service;
-    private ApiResponseService $apiResponseService;
 
-    public function __construct(ApiResponseService $apiResponseService, CategoryService $service)
+    public function __construct(CategoryService $service)
     {
         $this->service = $service;
-        $this->apiResponseService = $apiResponseService;
     }
 
     public function index(): JsonResponse
     {
         $data = $this->service->all();
-        return $this->apiResponseService->success($data);
+        return $this->success($data);
     }
 
     public function store(StoreCategoryRequest $request): JsonResponse
     {
         try {
             $data = $this->service->create($request->validated());
-            return $this->apiResponseService->success($data, 'Categoria criada com sucesso');
+            return $this->success($data, 'Category criado com sucesso');
         } catch (Exception $e) {
-            return $this->apiResponseService->fail($e->getMessage(), $e->getCode());
+            return $this->fail($e->getMessage(), $e->getCode());
         }
     }
 
@@ -41,9 +38,9 @@ class CategoryController extends Controller
     {
         try {
             $data = $this->service->find($id);
-            return $this->apiResponseService->success($data);
+            return $this->success($data);
         } catch (Exception $e) {
-            return $this->apiResponseService->fail($e->getMessage(), $e->getCode());
+            return $this->fail($e->getMessage(), $e->getCode());
         }
     }
 
@@ -51,9 +48,9 @@ class CategoryController extends Controller
     {
         try {
             $data = $this->service->update($id, $request->validated());
-            return $this->apiResponseService->success($data, 'Categoria atualizada com sucesso');
+            return $this->success($data, 'Category atualizado com sucesso');
         } catch (Exception $e) {
-            return $this->apiResponseService->fail($e->getMessage(), $e->getCode());
+            return $this->fail($e->getMessage(), $e->getCode());
         }
     }
 
@@ -61,9 +58,9 @@ class CategoryController extends Controller
     {
         try {
             $this->service->delete($id);
-            return $this->apiResponseService->success(null, 'Categoria deletada com sucesso');
+            return $this->success(null, 'Category deletado com sucesso');
         } catch (Exception $e) {
-            return $this->apiResponseService->fail($e->getMessage(), $e->getCode());
+            return $this->fail($e->getMessage(), $e->getCode());
         }
     }
 }

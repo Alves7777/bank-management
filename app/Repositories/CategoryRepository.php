@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Category;
 
 use App\Models\Category;
 
@@ -30,13 +30,13 @@ class CategoryRepository
 
     public function update($id, array $data): bool
     {
-        $category = $this->find($id);
-        return $category ? $category->update($data) : false;
+        $transaction = $this->find($id);
+        return $transaction ? $transaction->update($data) : false;
     }
 
     public function delete($id): bool
     {
-        $category = $this->find($id);
-        return $category ? $category->delete() : false;
+        $transaction = $this->find($id);
+        return $transaction ? $transaction->delete() : false;
     }
 }
