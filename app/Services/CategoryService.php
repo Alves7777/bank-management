@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Category;
+namespace App\Services;
 
-use App\Repositories\Category\CategoryRepository;
+use App\Repositories\CategoryRepository;
 use Exception;
 
 class CategoryService
