@@ -2,19 +2,21 @@
 
 namespace App\Repositories\Transaction;
 
+use App\Contracts\Repositories\TransactionRepositoryInterface;
 use App\Models\Transaction\Transaction;
 
-class TransactionRepository
+class TransactionRepository implements TransactionRepositoryInterface
 {
-    private Transaction $model;
-
-    public function __construct(Transaction $model)
+    public function __construct(private readonly Transaction $model)
     {
-        $this->model = $model;
     }
 
-    public function create(array $data): Transaction
+    public function create(string $accountNumber, float $value, string $paymentMethod): Transaction
     {
-        return $this->model->create($data);
+        return $this->model->create([
+            'account_number' => $accountNumber,
+            'value' => $value,
+            'payment_method' => $paymentMethod,
+        ]);
     }
 }

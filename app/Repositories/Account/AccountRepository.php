@@ -2,22 +2,26 @@
 
 namespace App\Repositories\Account;
 
+use App\Contracts\Repositories\AccountRepositoryInterface;
 use App\Models\Account\Account;
-use App\Models\BuildingEntrance\VisitorCard;
-use Illuminate\Database\Eloquent\Collection;
 
-class AccountRepository
+class AccountRepository implements AccountRepositoryInterface
 {
-    private Account $model;
-
-    public function __construct(Account $model)
+    public function __construct(private readonly Account $model)
     {
-        $this->model = $model;
     }
 
-    public function findByAccountNumber(string $accountNumber): ?Account
+    public function findByAccountNumber(string $accountNumber): Account
     {
-        return $this->model->whereAccountNumber($accountNumber)->firstOrfail();
+        return $this->model->whereAccountNumber($accountNumber)->firstOrFail();
+    }
+
+    public function findByAccountNumberForUpdate(string $accountNumber): Account
+    {
+        return $this->model
+            ->whereAccountNumber($accountNumber)
+            ->lockForUpdate()
+            ->firstOrFail();
     }
 
     public function create(array $data): Account

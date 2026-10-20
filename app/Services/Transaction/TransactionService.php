@@ -2,40 +2,45 @@
 
 namespace App\Services\Transaction;
 
+use App\Contracts\Payments\PaymentMethodResolverInterface;
+use App\Contracts\Repositories\AccountRepositoryInterface;
+use App\Contracts\Repositories\TransactionRepositoryInterface;
+use App\Contracts\Services\TransactionServiceInterface;
 use App\Enums\PaymentMethods;
+use App\Exceptions\InsufficientBalanceException;
 use App\Models\Transaction\Transaction;
-use App\Repositories\Account\AccountRepository;
-use App\Repositories\Transaction\TransactionRepository;
-use Exception;
+use Illuminate\Support\Facades\DB;
 
-class TransactionService
+class TransactionService implements TransactionServiceInterface
 {
-    private TransactionRepository $transactionRepository;
-    private AccountRepository $accountRepository;
-
-    public function __construct(TransactionRepository $transactionRepository, AccountRepository $accountRepository)
-    {
-        $this->transactionRepository = $transactionRepository;
-        $this->accountRepository = $accountRepository;
+    public function __construct(
+        private readonly TransactionRepositoryInterface $transactionRepository,
+        private readonly AccountRepositoryInterface $accountRepository,
+        private readonly PaymentMethodResolverInterface $paymentMethods,
+    ) {
     }
 
-    public function create(array $data): Transaction
+    public function create(string $accountNumber, float $value, PaymentMethods $paymentMethod): Transaction
     {
-        $paymentMethod = PaymentMethods::from($data['payment_method']);
-        $data['value'] += $data['value'] * $paymentMethod->fee();
-        $data['payment_method'] = $paymentMethod->name;
+        $payment = $this->paymentMethods->resolve($paymentMethod->value);
+        $chargedValue = $payment->charge($value);
 
-        $account = $this->accountRepository->findByAccountNumber($data['account_number']);
+        return DB::transaction(function () use ($accountNumber, $chargedValue, $payment) {
+            $account = $this->accountRepository->findByAccountNumberForUpdate($accountNumber);
 
-        if ($data['value'] > $account->balance) {
-            $balanceFormatted = number_format($account->balance, 2, ',', '.');
-            throw new Exception("Saldo insuficiente para realizar transação. Saldo: R$ {$balanceFormatted}", 404);
-        }
+            if ($chargedValue > $account->balance) {
+                throw new InsufficientBalanceException((float) $account->balance);
+            }
 
-        $transaction = $this->transactionRepository->create($data);
+            $transaction = $this->transactionRepository->create(
+                $accountNumber,
+                $chargedValue,
+                $payment->name(),
+            );
 
-        $this->accountRepository->updateAccountBalance($account, $data['value']);
+            $this->accountRepository->updateAccountBalance($account, $chargedValue);
 
-        return $transaction;
+            return $transaction;
+        });
     }
 }

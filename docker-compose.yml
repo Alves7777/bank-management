@@ -18,8 +18,9 @@ services:
             - DB_USERNAME=alves
             - DB_PASSWORD=1994
         depends_on:
-            - mysql
-        command: php -S 0.0.0.0:80 -t public
+            mysql:
+                condition: service_healthy
+        command: sh docker/entrypoint.sh
 
     mysql:
         image: mysql:8.0
@@ -34,6 +35,11 @@ services:
             MYSQL_PASSWORD: 1994
         volumes:
             - mysql_data:/var/lib/mysql
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-ualves", "-p1994"]
+            interval: 5s
+            timeout: 5s
+            retries: 20
         networks:
             - laravel
 

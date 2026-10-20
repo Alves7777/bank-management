@@ -2,20 +2,17 @@
 
 namespace App\Services\Account;
 
+use App\Contracts\Repositories\AccountRepositoryInterface;
+use App\Contracts\Services\AccountServiceInterface;
 use App\Models\Account\Account;
-use App\Repositories\Account\AccountRepository;
-use Illuminate\Database\Eloquent\Collection;
 
-class AccountService
+class AccountService implements AccountServiceInterface
 {
-    private AccountRepository $accountRepository;
-
-    public function __construct(AccountRepository $accountRepository)
+    public function __construct(private readonly AccountRepositoryInterface $accountRepository)
     {
-        $this->accountRepository = $accountRepository;
     }
 
-    public function findByAccountNumber(string $accountNumber): ?Account
+    public function findByAccountNumber(string $accountNumber): Account
     {
         return $this->accountRepository->findByAccountNumber($accountNumber);
     }

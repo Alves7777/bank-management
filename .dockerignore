@@ -1,0 +1,6 @@
+.git
+vendor
+node_modules
+docker/db
+storage/logs
+.env
